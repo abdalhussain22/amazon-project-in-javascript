@@ -41,7 +41,7 @@ products.forEach((product)=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -51,41 +51,65 @@ products.forEach((product)=>{
           </button>
         </div>
     `;
-
-})
+});
 
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
-// save item in to cart
+const addedMessageTimeouts = {};
+
+// Add product to cart and handle cart quantity updates
 document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
   button.addEventListener('click',()=>{
-    const productId = button.dataset.productId; // get name from data-attribute
-    const quantitySelect = Number(document.querySelector(`.js-quantity-selector-${productId}`).value); // Quantity based on selection
+    // Extract product ID from button data attribute
+    const {productId} = button.dataset;
 
+    // Get selected quantity for the product
+    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
+    // Check if the product already exists in the cart
     let matchingItem;
     cart.forEach((item)=>{
-      if(productId === item.productId){
+      if(productId === item.productId){ 
         matchingItem = item;
       }
-    })
+    });
+
+    // Update quantity if item exists, otherwise add new item
     if(matchingItem){
-      matchingItem.quantity =  quantitySelect;
+      matchingItem.quantity = quantity;
     } else {
       cart.push({
-        productId: productId,
-        quantity: quantitySelect
+        productId,
+        quantity
       });
     }
 
-    // Calculate total cart Items quantity
+    // Calculate total number of items in the cart
     let cartQuantity = 0;
     cart.forEach((item)=>{
       cartQuantity += item.quantity;
-    })
+    });
 
+    // Update cart icon quantity display
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-
     console.log(cart);
+
+    // Show "Added" message temporarily
+    const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedMessage.classList.add('added-to-cart-visible');
     
-  })
-})
+    // Clear any previous timeout for this product
+    const previousTimeoutId = addedMessageTimeouts[productId];
+    if (previousTimeoutId) {
+      clearTimeout(previousTimeoutId);
+    }
+
+    // Hide the "Added" message after 2 seconds
+    const timeoutId = setTimeout(()=>{
+      addedMessage.classList.remove('added-to-cart-visible');
+    },2000);
+
+    // Store timeout ID for future reference
+    addedMessageTimeouts[productId] = timeoutId;
+  });
+});
