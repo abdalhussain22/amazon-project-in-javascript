@@ -1,4 +1,4 @@
-export let cart = [
+export let cart = JSON.parse(localStorage.getItem('cart')) || [
     {
         productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
         quantity: 2
@@ -8,6 +8,10 @@ export let cart = [
         quantity: 1
     }
 ];
+
+export function saveToStorage(){
+  localStorage.setItem('cart',JSON.stringify(cart));
+}
 
 export function addToCart(productId,quantity){
     // Check if the product already exists in the cart
@@ -27,6 +31,7 @@ export function addToCart(productId,quantity){
         quantity
       });
     }
+    saveToStorage();
 }
 
 export function remoteFromCart(productId){
@@ -39,4 +44,5 @@ export function remoteFromCart(productId){
   })
 
   cart = newCart;
+  saveToStorage();
 }
