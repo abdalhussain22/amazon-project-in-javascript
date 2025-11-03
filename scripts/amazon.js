@@ -1,3 +1,6 @@
+import { cart, addToCart } from "../data/cart.js";
+import { products } from "../data/products.js";
+
 let productHTML = '';
 
 products.forEach((product)=>{
@@ -55,36 +58,8 @@ products.forEach((product)=>{
 
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
-const addedMessageTimeouts = {};
-
-// Add product to cart and handle cart quantity updates
-document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
-  button.addEventListener('click',()=>{
-    // Extract product ID from button data attribute
-    const {productId} = button.dataset;
-
-    // Get selected quantity for the product
-    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-
-    // Check if the product already exists in the cart
-    let matchingItem;
-    cart.forEach((item)=>{
-      if(productId === item.productId){ 
-        matchingItem = item;
-      }
-    });
-
-    // Update quantity if item exists, otherwise add new item
-    if(matchingItem){
-      matchingItem.quantity = quantity;
-    } else {
-      cart.push({
-        productId,
-        quantity
-      });
-    }
-
-    // Calculate total number of items in the cart
+function updateCartQuantity(){
+  // Calculate total number of items in the cart
     let cartQuantity = 0;
     cart.forEach((item)=>{
       cartQuantity += item.quantity;
@@ -93,8 +68,12 @@ document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
     // Update cart icon quantity display
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
     console.log(cart);
+}
 
-    // Show "Added" message temporarily
+const addedMessageTimeouts = {};
+
+function showMessageAndClearTimeOut(productId){
+  // Show "Added" message temporarily
     const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
     addedMessage.classList.add('added-to-cart-visible');
     
@@ -111,5 +90,21 @@ document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
 
     // Store timeout ID for future reference
     addedMessageTimeouts[productId] = timeoutId;
+}
+
+// Add product to cart and handle cart quantity updates
+document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
+  button.addEventListener('click',()=>{
+    // Extract product ID from button data attribute
+    const {productId} = button.dataset;
+
+    // Get selected quantity for the product
+    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
+    addToCart(productId,quantity);
+
+    updateCartQuantity();
+
+    showMessageAndClearTimeOut(productId);
   });
 });
