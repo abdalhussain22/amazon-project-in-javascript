@@ -1,4 +1,4 @@
-import { cart,remoteFromCart } from "../data/cart.js";
+import { cart,remoteFromCart,calculateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -103,5 +103,8 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>{
 
         const container =  document.querySelector(`.js-cart-item-container-${productId}`);
         container.remove();
+        calculateCartQuantity("js-return-to-home-link");
     })
 })
+
+calculateCartQuantity("js-return-to-home-link");
