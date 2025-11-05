@@ -59,7 +59,13 @@ products.forEach((product)=>{
 
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
-calculateCartQuantity("js-cart-quantity");
+function updateCartQuantity(){
+  const cartQuantity = calculateCartQuantity();
+
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
+updateCartQuantity();
 
 const addedMessageTimeouts = {};
 
@@ -94,7 +100,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
 
     addToCart(productId,quantity);
 
-    calculateCartQuantity("js-cart-quantity");
+    updateCartQuantity();
 
     showMessageAndClearTimeOut(productId);
   });

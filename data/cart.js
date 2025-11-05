@@ -47,11 +47,26 @@ export function remoteFromCart(productId){
   saveToStorage();
 }
 
-export function calculateCartQuantity(className){
+export function calculateCartQuantity(){
   let cartQuantity = 0;
   cart.forEach((cartItem)=>{
     cartQuantity += cartItem.quantity; 
   })
+  
+  return cartQuantity;
+}
 
-  document.querySelector(`.${className}`).innerHTML = cartQuantity;
+export function updateQuantity(productId,newQuantity){
+  let matchingItem;
+  cart.forEach((item)=>{
+    if(productId === item.productId){
+      matchingItem = item;
+    }
+  })
+
+  if(matchingItem){
+      matchingItem.quantity = newQuantity;
+  }
+
+  saveToStorage();  
 }
