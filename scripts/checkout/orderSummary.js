@@ -1,8 +1,7 @@
-import { cart,remoteFromCart,calculateCartQuantity,updateQuantity, saveToStorage,updateDeliveryOption } from "../../data/cart.js";
+import { cart,remoteFromCart,updateQuantity, saveToStorage,updateDeliveryOption } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import formatCurraency from "../utils/money.js";
-import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-import { deliveryOptions,getDeliveryOption } from "../../data/delievryOptions.js";
+import { deliveryOptions,getDeliveryOption,calculateDeliveryDate } from "../../data/delievryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 
@@ -15,17 +14,9 @@ export function renderOrderSummary(){
          
         const deliveryOptionId = cartItem.deliveryOptionId;
 
-        let delievryOption = getDeliveryOption(deliveryOptionId);
+        let deliveryOption = getDeliveryOption(deliveryOptionId);
 
-        const today = dayjs();
-        const delievryDate = today.add(
-            delievryOption.delievryDays,
-            'days'
-        );
-
-        const dateString = delievryDate.format(
-            'dddd, MMMM D'
-        )
+        const dateString = calculateDeliveryDate(deliveryOption);
 
         matchingProductHTML += `
         <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -75,15 +66,7 @@ export function renderOrderSummary(){
         function delievryOptionHTML(matchingProduct,cartItem){
         let html = '';
         deliveryOptions.forEach((delievryOption)=>{
-            const today = dayjs();
-            const delievryDate = today.add(
-                delievryOption.delievryDays,
-                'days'
-            );
-
-            const dateString = delievryDate.format(
-                'dddd, MMMM D'
-            )
+            const dateString = calculateDeliveryDate(delievryOption);
 
             const priceCents = delievryOption.priceCents === 0
                 ? 'FREE'
