@@ -58,10 +58,6 @@ export function renderPaymentSummary(){
 
     document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
 
-    function updateCartQuantity(){
-        const cartQuantity = calculateCartQuantity();
-        document.querySelector(".js-item-quantity").innerHTML = `Items (${cartQuantity})`;
-    }
-
-    updateCartQuantity();
+    const cartQuantity = calculateCartQuantity();
+    document.querySelector(".js-item-quantity").innerHTML = `Items (${cartQuantity})`;
 }
