@@ -712,6 +712,32 @@ export const products = [
   return new Product(productDetails);
 });
 
+// console.log(this);
+
+// const object2 = {
+//   a: 2,
+//   b: this.object2 // undefined: because object is not created yet
+// }
+// console.log(object2.b);
+
+// const date = new Date();
+// console.log(date);
+// console.log(date.toLocaleTimeString());
+
+// function logThis(){
+//   console.log(this);
+// }
+
+// logThis();
+// logThis.call('Hello bhai');
+
+// this
+// const object3 = {
+//   method: ()=>{
+//     console.log(this);
+//   }
+// }
+// object3.method();
 
 export function getProduct(productId){
   let matchingProduct;
