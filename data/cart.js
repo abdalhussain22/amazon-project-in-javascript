@@ -32,11 +32,11 @@ export function addToCart(productId,quantity){
 
     // Update quantity if item exists, otherwise add new item
     if(matchingItem){
-      matchingItem.quantity += 1;
+      matchingItem.quantity = quantity;
     } else {
       cart.push({
         productId,
-        quantity: 1,
+        quantity,
         deliveryOptionId: '1'
       });
     }

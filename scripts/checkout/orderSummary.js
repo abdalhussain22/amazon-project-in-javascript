@@ -17,7 +17,6 @@ export function renderOrderSummary(){
         let deliveryOption = getDeliveryOption(deliveryOptionId);
 
         const dateString = calculateDeliveryDate(deliveryOption);
-        console.log(dateString);
 
         matchingProductHTML += `
         <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -68,7 +67,6 @@ export function renderOrderSummary(){
         let html = '';
         deliveryOptions.forEach((delievryOption)=>{
             const dateString = calculateDeliveryDate(delievryOption);
-        console.log(dateString);
 
             const priceCents = delievryOption.priceCents === 0
                 ? 'FREE'
