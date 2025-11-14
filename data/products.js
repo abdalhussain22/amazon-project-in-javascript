@@ -54,8 +54,6 @@ class Appliance extends Product{
     super(productDetails);
     this.instructionsLink = productDetails.instructionsLink;
     this.warrantyLink = productDetails.warrantyLink;
-    console.log(this.instructionsLink);
-    console.log(this.warrantyLink);
   }
 
   extraInfoHTML(){
