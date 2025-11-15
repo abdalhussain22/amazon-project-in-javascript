@@ -6,6 +6,23 @@ import { renderCheckoutHeader } from "../scripts/checkout/checkoutHeader.js";
 import { loadsProduct ,loadProductFetch} from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
+// async await is the shortcut for promises
+async function loadPage() {
+    await loadProductFetch();
+
+    await new Promise((resolve)=>{
+        loadCart(()=>{
+            resolve('value2');
+        });
+    })
+
+    renderOrderSummary();
+    renderPaymentSummary();
+    renderCheckoutHeader();
+}
+loadPage()
+
+/*
 // promise.all let us run multiple promises at the same time.
 Promise.all([
     loadProductFetch(),
@@ -20,6 +37,7 @@ Promise.all([
     renderPaymentSummary();
     renderCheckoutHeader();
 })
+*/
 
 /*
 // we should promises instead of callback due to indentation
