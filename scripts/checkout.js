@@ -4,9 +4,57 @@ import { renderCheckoutHeader } from "../scripts/checkout/checkoutHeader.js";
 // import "../data/cart-class.js"; // we this just for practice oop
 // import "../data/backend-practice.js"
 import { loadsProduct } from "../data/products.js";
+import { loadCart } from "../data/cart.js";
 
-loadsProduct(()=>{
+// promise.all let us run multiple promises at the same time.
+Promise.all([
+    new Promise((resolve)=>{
+        loadsProduct(()=>{
+            resolve("value1");
+        }); 
+    }),
+    new Promise((resolve)=>{
+        loadCart(()=>{
+            resolve('value2');
+        });
+    })
+]).then((value)=>{
+    console.log(value);
     renderOrderSummary();
     renderPaymentSummary();
     renderCheckoutHeader();
 })
+
+/*
+// we should promises instead of callback due to indentation
+// run each promise separately
+new Promise((resolve)=>{
+    loadsProduct(()=>{
+        resolve("value1");
+    });
+
+}).then((value)=>{
+    console.log(value);
+    return new Promise((resolve)=>{
+        loadCart(()=>{
+            resolve();
+        });
+    })
+
+}).then(()=>{  
+        renderOrderSummary();
+        renderPaymentSummary();
+        renderCheckoutHeader();
+})
+*/
+
+/*
+loadsProduct(()=>{
+    loadCart(()=>{
+        renderOrderSummary();
+        renderPaymentSummary();
+        renderCheckoutHeader();
+    })
+})
+
+*/
