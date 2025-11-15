@@ -3,16 +3,12 @@ import {renderPaymentSummary} from '../scripts/checkout/paymentSummary.js';
 import { renderCheckoutHeader } from "../scripts/checkout/checkoutHeader.js";
 // import "../data/cart-class.js"; // we this just for practice oop
 // import "../data/backend-practice.js"
-import { loadsProduct } from "../data/products.js";
+import { loadsProduct ,loadProductFetch} from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
 // promise.all let us run multiple promises at the same time.
 Promise.all([
-    new Promise((resolve)=>{
-        loadsProduct(()=>{
-            resolve("value1");
-        }); 
-    }),
+    loadProductFetch(),
     new Promise((resolve)=>{
         loadCart(()=>{
             resolve('value2');
