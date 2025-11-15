@@ -8,13 +8,21 @@ import { loadCart } from "../data/cart.js";
 
 // async await is the shortcut for promises
 async function loadPage() {
-    await loadProductFetch();
+    try {
+        // throw 'error1'
+        await loadProductFetch();
 
-    await new Promise((resolve)=>{
+        // we can create two error; 1: throw and 2: reject()
+        const value = await new Promise((resolve,reject)=>{
+        // throw 'error 2'
         loadCart(()=>{
             resolve('value2');
+            // reject('error 3');
         });
     })
+    } catch (error) {
+        console.log('unexpected error, try again.')
+    }
 
     renderOrderSummary();
     renderPaymentSummary();

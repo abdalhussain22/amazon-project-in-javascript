@@ -86,6 +86,8 @@ export function loadProductFetch(){
 
       console.log('load product');
 
+    }).catch((error)=>{
+      console.log('error try agian.')
     })
     return promise;
 }
@@ -113,7 +115,7 @@ export function loadsProduct(func){
 
       console.log('load product');
 
-      xhr.addEventListener('error', (error) => {
+      xhr.addEventListener('error', () => {
         console.log('Unexpected error. Please try again later.');
       });
 
